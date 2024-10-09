@@ -32,6 +32,8 @@ function displayResults(data) {
     }
 }
 
+let chart;
+
 function displayChart(data) {
     // Input: data (object) - contains the following keys:
     //        - documents (list) - list of documents
@@ -40,7 +42,12 @@ function displayChart(data) {
     // TODO: Implement function to display chart here
     //       There is a canvas element in the HTML file with the id 'similarity-chart'
     const ctx = document.getElementById('similarity-chart').getContext('2d');
-    const chart = new Chart(ctx, {
+    
+    if (chart) {
+        chart.destroy();
+    }
+    
+    chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: data.indices.map(index => `Document ${index}`),
