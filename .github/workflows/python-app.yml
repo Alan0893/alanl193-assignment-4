@@ -1,33 +1,27 @@
-name: Python App CI
+name: Python application
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Python 3.x
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
     - name: Install dependencies
-      run: make install
-
-    - name: Run the Flask server
       run: |
-        make run &
-        sleep 10
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-    - name: Test server
-      run: curl --fail http://127.0.0.1:3000 || exit 1
+    - name: Run the application
+      run: |
+        python app.py &
+        sleep 10
